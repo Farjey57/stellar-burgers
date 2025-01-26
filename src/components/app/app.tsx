@@ -36,6 +36,8 @@ function App() {
   const backgroundLocation = location.state?.background;
   const onModalClose = () => navigate(-1);
 
+  // dispatch(registerUser({ email: 'test@test57.ru', name: 'potter', password: '1' }));
+
   return (
     <div className={styles.app}>
       <AppHeader />
