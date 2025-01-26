@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { USER_SLICE_NAME } from './sliceNames';
 import { TUser } from '@utils-types';
 import {
-  forgotPasswordApi,
   getUserApi,
   loginUserApi,
   logoutApi,
@@ -96,7 +95,7 @@ export const loginUser = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk(
   `${USER_SLICE_NAME}/fetchUser`,
-  async () => getUserApi()
+  getUserApi
 );
 
 export const updateUser = createAsyncThunk(

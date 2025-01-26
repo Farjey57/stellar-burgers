@@ -12,7 +12,7 @@ import {
   postOrder
 } from '../../services/slices/order';
 import { userSelectors } from '../../services/slices/user';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const Items = useSelector(burgerConstructorSelectors.getAllIngredients);

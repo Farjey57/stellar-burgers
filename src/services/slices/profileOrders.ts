@@ -44,7 +44,7 @@ const profileOrdersSlice = createSlice({
 
 export const fetchProfileOrders = createAsyncThunk(
   `${PROFILE_ORDERS_SLICE_NAME}/fetchProfileOrders`,
-  async () => getOrdersApi()
+  getOrdersApi
 );
 
 export const profileOrdersAction = profileOrdersSlice.actions;

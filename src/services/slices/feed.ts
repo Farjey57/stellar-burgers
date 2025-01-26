@@ -8,6 +8,7 @@ export type TStateFeed = {
   total: number;
   totalToday: number;
   isLoading: boolean;
+  isLoadingByNumber: boolean;
   error: null | string | undefined;
   orderPage: TOrder | null;
 };
@@ -17,6 +18,7 @@ const initialState: TStateFeed = {
   total: 0,
   totalToday: 0,
   isLoading: false,
+  isLoadingByNumber: false,
   error: null,
   orderPage: null
 };
@@ -30,6 +32,7 @@ const feedSlice = createSlice({
     getTotal: (state) => state.total,
     getTotalToday: (state) => state.totalToday,
     getIsLoading: (state) => state.isLoading,
+    getIsLoadingByNumber: (state) => state.isLoadingByNumber,
     getOrderPage: (state) => state.orderPage,
     getOrderByNumber: (state, number: number) =>
       state.orders.find((item) => item.number === number)
@@ -51,15 +54,15 @@ const feedSlice = createSlice({
         state.totalToday = action.payload.totalToday;
       })
       .addCase(fetchOrderByNumber.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingByNumber = true;
         state.error = null;
       })
       .addCase(fetchOrderByNumber.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingByNumber = false;
         state.error = action.error.message;
       })
       .addCase(fetchOrderByNumber.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingByNumber = false;
         state.orderPage = action.payload.orders[0];
       });
   }
@@ -67,11 +70,11 @@ const feedSlice = createSlice({
 
 export const fetchOrders = createAsyncThunk(
   `${FEED_SLICE_NAME}/fetchOrders`,
-  async () => getFeedsApi()
+  getFeedsApi
 );
 
 export const fetchOrderByNumber = createAsyncThunk(
-  `${FEED_SLICE_NAME}/fetchOrderById`,
+  `${FEED_SLICE_NAME}/fetchOrderByNumber`,
   async (number: number) => getOrderByNumberApi(number)
 );
 

@@ -6,26 +6,19 @@ import { useDispatch, useSelector } from '../../services/store';
 import { ingredientsSelectors } from '../../services/slices/ingredients';
 import { useParams } from 'react-router-dom';
 import { feedSelectors, fetchOrderByNumber } from '../../services/slices/feed';
-import { profileOrdersSelectors } from '../../services/slices/profileOrders';
 
 export const OrderInfo: FC = () => {
   const number = useParams().number || '';
   const dispatch = useDispatch();
   const ingredients = useSelector(ingredientsSelectors.getIngredients);
-  const orderData =
-    useSelector((state) =>
-      feedSelectors.getOrderByNumber(state, Number(number))
-    ) || useSelector(feedSelectors.getOrderPage);
-
-  console.log(orderData);
 
   useEffect(() => {
-    console.log('зашли в useEffect');
     if (!orderData) {
-      console.log('диспатчим');
       dispatch(fetchOrderByNumber(Number(number)));
     }
-  }, [dispatch]);
+  }, []);
+
+  const orderData = useSelector(feedSelectors.getOrderPage);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

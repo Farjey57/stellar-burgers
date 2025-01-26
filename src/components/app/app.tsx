@@ -115,7 +115,7 @@ function App() {
             path='/feed/:number'
             element={
               <Modal
-                title={`#0${useLocation().state.orderNumber}`}
+                title={`#0${useLocation()?.state?.orderNumber}`}
                 onClose={onModalClose}
               >
                 <OrderInfo />
@@ -135,7 +135,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Modal
-                  title={`#0${useLocation().state.orderNumber}`}
+                  title={`#0${useLocation()?.state?.orderNumber}`}
                   onClose={onModalClose}
                 >
                   <OrderInfo />
