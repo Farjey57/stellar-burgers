@@ -60,6 +60,7 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.data = action.payload.user;
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         setCookie('accessToken', action.payload.accessToken);
