@@ -11,7 +11,16 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+/**
+ * Кликает на элемент, который соответствует указанному селектору и содержит указанный текст.
+ * @param {string} selector - Селектор элемента (например, `button`, `.class`, `#id`).
+ * @param {string} label - Текст, который должен содержать элемент.
+ * @example
+ * cy.clickElement('button', 'Submit'); // Кликнет на кнопку с текстом "Submit"
+ */
+Cypress.Commands.add('clickElement', (selector, label) => {
+  cy.get(selector).contains(label).click();
+});
 //
 //
 // -- This is a child command --
@@ -26,12 +35,19 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
 // declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Кликает на элемент, который соответствует указанному селектору и содержит указанный текст.
+     * @param {string} selector - Селектор элемента (например, `button`, `.class`, `#id`).
+     * @param {string} label - Текст, который должен содержать элемент.
+     * @example
+     * cy.clickElement('button', 'Submit'); // Кликнет на кнопку с текстом "Submit"
+     */
+    clickElement(selector: string, label: string): Chainable<void>;
+    //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+    //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+    //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+  }
+}
 // }

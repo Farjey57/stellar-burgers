@@ -18,23 +18,37 @@ describe('добавление ингредиента из списка в ко�
     );
     cy.setCookie('accessToken', 'testAccessToken');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('');
     cy.wait(['@fetchIngredients', '@userData']);
   });
 
   it('Create sucess order test', function () {
-    cy.get(SELECTORS.BUN_INGREDIENT).contains(TEXT.ADD).click();
-    cy.get(SELECTORS.INGREDIENT).contains(TEXT.ADD).click();
+    cy.clickElement(SELECTORS.BUN_INGREDIENT, TEXT.ADD);
+    cy.clickElement(SELECTORS.INGREDIENT, TEXT.ADD);
 
     cy.get(SELECTORS.ORDER_POST).contains(TEXT.POST).should('exist').click();
 
+    cy.wait('@successOrder').then((interception) => {
+      // Проверяем статус ответа
+      expect(interception.response?.statusCode).to.eq(200);
+
+      // Проверяем данные в ответе
+      const responseBody = interception.response?.body;
+      expect(responseBody).to.have.property('success', true);
+      expect(responseBody).to.have.property('name');
+      expect(responseBody).to.have.property('order');
+      expect(responseBody.order).to.have.property('number');
+      expect(responseBody.order.number).to.eql(TEXT.NUMBER_ORDER);
+    });
+
     cy.get(SELECTORS.MODAL)
+      .as('modal')
       .should('exist')
       .contains(TEXT.NUMBER_ORDER)
       .should('exist');
 
     cy.get(SELECTORS.MODAL_CLOSE).should('exist').click();
-    cy.get(SELECTORS.MODAL).should('not.exist');
+    cy.get('@modal').should('not.exist');
 
     cy.get(SELECTORS.CONSTRUCTOR_BUN)
       .should('have.length', 2)
