@@ -6,7 +6,7 @@ import { TOrder } from '@utils-types';
 export type TOrderState = {
   newOrderData: TOrder | null;
   isLoading: boolean;
-  error: string | null;
+  error: null | string | undefined;
 };
 
 const initialState: TOrderState = {
@@ -29,9 +29,11 @@ const orderSlice = createSlice({
     builder
       .addCase(postOrder.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
-      .addCase(postOrder.rejected, (state) => {
+      .addCase(postOrder.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message;
       })
       .addCase(postOrder.fulfilled, (state, action) => {
         state.isLoading = false;
